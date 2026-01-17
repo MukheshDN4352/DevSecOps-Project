@@ -1,182 +1,154 @@
-# SocialEcho
+# End-to-End DevSecOps Pipeline with GitOps on AWS EKS
 
-A social networking platform with automated content moderation and context-based authentication system.
+An end-to-end **DevSecOps CI/CD pipeline** implementing **security, automation, and GitOps principles** to deploy a **three-tier MERN stack application (Socio-Echo)** on **AWS EKS**.  
+The pipeline integrates **Jenkins, SonarQube, Trivy, Docker, and ArgoCD** to achieve secure, reliable, and automated cloud-native deployments.
 
-[Watch Demo](https://youtu.be/Tmncayg7FeU)
+---
 
-![UI-community](https://raw.githubusercontent.com/nz-m/SocialEcho/main/resources/UI-community.png)
+## 📌 Project Overview
 
-## Table of Contents
+This project demonstrates a complete **DevSecOps lifecycle**, starting from source code commit to automated deployment on Kubernetes using **GitOps methodology**.  
+Security is embedded at every stage of the pipeline through static code analysis and container vulnerability scanning.
 
-- [Project Overview](#project-overview)
-- [Features](#features)
-- [Technologies](#technologies)
-- [Schema Diagram](#schema-diagram)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [License](#license)
+**Key Highlights:**
+- Automated CI/CD using Jenkins
+- Integrated security scans 
+- GitOps-based Kubernetes deployments using ArgoCD
+- Stable and Canary deployment strategy
+- Monitoring with grafana and prometheus
 
-## Project Overview
+---
 
-The project is a social networking platform built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. It incorporates two major features: an automated content moderation system and context-based authentication. These features are accompanied by common functionalities found in social media applications, such as profile creation, post creation and sharing, liking and commenting on posts, and following/unfollowing users.
+## 🏗️ High-Level Architecture
 
-### Automated Content Moderation
+**Workflow Summary:**
 
-The platform's automated content moderation system utilizes various NLP (Natural Language Processing) APIs. These APIs include:
+1. Developer pushes code to GitHub  
+2. Jenkins pipeline (running on AWS EC2) is triggered  
+3. Jenkins performs:
+   - SonarQube code quality analysis  
+   - Trivy vulnerability scanning  
+   - Docker image build and push  
+   - Kubernetes manifest updates (Stable & Canary)  
+4. Updated YAML files are pushed back to GitHub  
+5. ArgoCD detects changes and syncs them to AWS EKS  
+6. Application is deployed as Pods, Services, and Deployments  
 
-- Perspective API: Used for filtering spam, profanity, toxicity, harassment etc.
-- TextRazor API: Integrated for content categorization.
-- Hugging Face Interface API: Utilized with BART Large MNLI for content categorization.
+---
 
-A Flask application has been developed to provide similar functionality as the Hugging Face Interface API's classifier. The Flask app utilizes the BART Large MNLI model. It operates as a zero-shot classification pipeline with a PyTorch framework.
+## 🔍 Detailed Design
 
-The system allows flexibility in choosing different services for API usage or disabling them without affecting overall functionality by using a common interface for interacting with the APIs.
+### CI/CD Workflow
 
-When a user posts content, it undergoes a thorough filtering process to ensure compliance with the community guidelines. Additionally, users have the ability to report posts that they find inappropriate, which triggers a manual review process.
+- Code commits trigger Jenkins via GitHub webhook  
+- Jenkins executes the following stages:
+  - Repository cloning  
+  - SonarQube static code analysis  
+  - Trivy container vulnerability scanning  
+  - Docker image build and push to registry  
+  - Update Kubernetes deployment manifests with new image tags  
+- Changes are committed back to GitHub  
 
-### Context-Based Authentication
+### GitOps Deployment
 
-The platform implements context-based authentication to enhance user account security. It takes into consideration user location, IP address, and device information for authentication purposes. Users can conveniently manage their devices directly from the platform. To ensure data privacy, this information is encrypted using the AES algorithm and securely stored in the database.
+- ArgoCD continuously monitors the GitHub repository  
+- Any change in Kubernetes manifests automatically syncs to AWS EKS  
+- Stable and Canary deployments are updated seamlessly  
+- Services are updated accordingly for traffic routing  
 
-In case of a suspicious login attempt, users are promptly notified via email and are required to confirm their identity to protect against unauthorized access.
+---
 
-### User Roles
+## ⚙️ Implementation Details
 
-There are three distinct user roles within the system:
+### 4.1 Proposed Methodology
 
-1. Admin: The admin role manages the overall system, including moderator management, community management, content moderation, monitoring user activity, and more.
-2. Moderators: Moderators manage communities, manually review reported posts, and perform other moderation-related tasks.
-3. General Users: General users have the ability to make posts, like comments, and perform other actions within the platform.
+The pipeline integrates security and automation tools to achieve DevSecOps workflows:
 
+- **Jenkins** manages CI/CD automation  
+- **SonarQube** ensures code quality and maintainability  
+- **Trivy** scans Docker images for vulnerabilities  
+- **Docker** packages the application  
+- **ArgoCD** handles GitOps-based deployments to AWS EKS  
+- **CloudWatch** enables monitoring and observability  
 
+---
 
-## Features
+### 4.2 Algorithm Used for Implementation
 
-- [x] User authentication and authorization (JWT)
-- [x] User profile creation and management
-- [x] Post creation and management
-- [x] Commenting on posts
-- [x] Liking posts and comments
-- [x] Following/unfollowing users
-- [x] Reporting posts
-- [x] Content moderation
-- [x] Context-based authentication
-- [x] Device management
-- [x] Admin dashboard
-- [x] Moderator dashboard
-- [x] Email notifications
+1. Start Jenkins pipeline  
+2. Clone code from GitHub  
+3. Analyze code using SonarQube  
+4. Scan Docker image vulnerabilities using Trivy  
+5. Build and push Docker image  
+6. Update stable and canary Kubernetes YAML files  
+7. Push updated manifests to GitHub  
+8. ArgoCD syncs the EKS cluster  
+9. Deploy updated application versions  
+10. Monitor application using CloudWatch  
 
+---
 
-## Technologies
+## 🛠️ Tools & Technologies Used
 
-- React.js
-- Redux
-- Node.js
-- Express.js
-- MongoDB
-- Tailwind CSS
-- JWT Authentication
-- Passport.js
-- Nodemailer
-- Crypto-js
-- Azure Blob Storage
-- Flask
-- Hugging Face Transformers
+| Category | Tools |
+|--------|------|
+| Cloud | AWS EC2, AWS EKS |
+| CI/CD | Jenkins |
+| Security | SonarQube, Trivy |
+| Containers | Docker |
+| GitOps | ArgoCD |
+| SCM | GitHub |
+| Monitoring | AWS CloudWatch |
+| Application | MERN Stack (Socio-Echo) |
+| Grafana | Prometheus|
 
+---
 
-## Schema Diagram
+## 🧪 Testing & Validation
 
-![Schema Diagram](https://raw.githubusercontent.com/nz-m/SocialEcho/main/resources/Schema-Diagram.png)
+The following validations were performed:
 
+- Successful Jenkins pipeline execution  
+- Code quality verification via SonarQube  
+- Vulnerability detection using Trivy  
+- Automated GitOps deployments using ArgoCD  
+- Application availability on AWS EKS  
+- Monitoring logs and metrics via CloudWatch  
 
+---
 
-## Getting Started
+## 📂 Application Used
 
-### Prerequisites
+This pipeline deploys an **open-source three-tier MERN stack application**:
 
-Before running the application, make sure you have the following installed:
+- **Project Name:** Socio-Echo  
+- **Architecture:**  
+  - Frontend: React  
+  - Backend: Node.js & Express  
+  - Database: MongoDB
+  - github url: https://github.com/nz-m/SocialEcho.git
 
-- Node.js
-- MongoDB or MongoDB Atlas account
+The application was containerized and deployed using Kubernetes on AWS EKS.
 
-### Installation
+---
 
-1. Clone the repository
+## 👥 Contributors
 
-```bash
-git clone https://github.com/nz-m/SocialEcho.git
-```
-2. Go to the project directory and install dependencies for both the client and server
+- **Mukhesh D N**
+- **Muppidi sai Adithya**
 
-```bash
-cd client
-npm install
-```
+---
 
-```bash
-cd server
-npm install
-```
+## 🚀 Future Enhancements
 
-3. Create a `.env` file in both the `client` and `server` directories and add the environment variables as shown in the `.env.example` files.
-4. Start the server
+- Add Prometheus & Grafana for advanced monitoring  
+- Implement Blue-Green deployment strategy  
+- Add OWASP Dependency-Check  
+- Enable automated rollback using ArgoCD  
+- Integrate Slack/Email notifications  
 
-```bash
-cd server
-npm start
-```
+---
 
-5. Start the client
+## 📄 License
 
-```bash
-cd client
-npm start
-```
-
-
-### Configuration
-
-Run the `admin_tool.sh` script from the server directory with permissions for executing the script. This script is used for configuring the admin account, creating the initial communities, and other settings.
-```bash
-./admin_tool.sh
-``` 
-
-#### `.env` Variables
-
-For email service of context-based authentication, the following variables are required:
-
-```bash
-EMAIL=
-PASSWORD=
-EMAIL_SERVICE=
-```
-
-For content moderation, you need the `PERSPECTIVE_API_KEY` and either the `INTERFACE_API_KEY` or `TEXTRAZOR_API_KEY`. Visit the following links to obtain the API keys:
-
-- [Perspective API](https://developers.perspectiveapi.com/s/docs-get-started)
-- [TextRazor API](https://www.textrazor.com/)
-- [Hugging Face Interface API](https://huggingface.co/facebook/bart-large-mnli)
-
-If you prefer, the Flask server can be run locally as an alternative to using the Hugging Face Interface API or TextRazor API. Refer to the `classifier_server` directory for more information.
-
-
->**Note:** Configuration for context-based authentication and content moderation features are **_not mandatory_** to run the application. However, these features will not be available if the configuration is not provided.
-
-
-## Usage
-
-### Admin
-
-The admin dashboard can be accessed at the `/admin` route. Use the `admin_tool.sh` script to configure the admin account. The admin account can be used to manage moderators, communities, and perform other admin-related tasks. You can also enable/disable or switch API services using the admin dashboard.
-
-### Moderator
-
-Moderators have specific email domain (`@mod.socialecho.com`). When registering with an email from this domain, the user is automatically assigned the moderator role. Moderators can be assigned to different communities from the admin dashboard.
-
-#### Demo
-https://youtu.be/Tmncayg7FeU
-
-## License
-
-This project is licensed under the [MIT License](https://github.com/nz-m/SocialEcho/blob/main/LICENSE).
-
+This project is for educational and demonstration purposes.
