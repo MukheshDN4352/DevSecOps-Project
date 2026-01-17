@@ -4,6 +4,20 @@ An end-to-end **DevSecOps CI/CD pipeline** implementing **security, automation, 
 The pipeline integrates **Jenkins, SonarQube, Trivy, Docker, and ArgoCD** to achieve secure, reliable, and automated cloud-native deployments.
 
 ---
+## 🎥 Project Demo Video
+
+Click the thumbnail below to watch the complete end-to-end demonstration of the DevSecOps pipeline:
+
+[![DevSecOps Pipeline Demo](https://img.youtube.com/vi/5dfXffclH4s/0.jpg)](https://youtu.be/5dfXffclH4s)
+
+This demo covers:
+- Jenkins CI/CD pipeline execution
+- SonarQube static code analysis
+- Trivy container vulnerability scanning
+- Docker image build and push
+- GitOps-based deployment using ArgoCD
+- Application deployment on AWS EKS
+
 
 ## 📌 Project Overview
 
